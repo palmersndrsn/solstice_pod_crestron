@@ -1,0 +1,60 @@
+/*
+Dealer Name: CoitCom
+Programmer: palmer_sanderson
+Comments: 
+*/
+  
+//COMPILER DIRECTIVES
+#symbol_name "mersiveTest"
+//#hint ""
+//#print_to_trace
+#default_volatile
+//#DEFINE_CONSTANT gcConfig$ "http://192.168.1.199/api/config"
+//#DEFINE_CONSTANT gcStats$ "http://192.168.1.199/api/stats"
+#CATEGORY "46" "Modules" 
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+#USER_SIMPLSHARP_LIBRARY "MersiveSolstice"
+
+// Ins and Outs
+//**************************
+digital_Input request_stats;
+
+analog_output currentPostCount,currentBandwith,currentLiveSourceCount,connectedUsers,timeSinceLastConnection;
+  
+string_output displayName, productName, productVariant;
+
+string_input ip_host[512];
+                           
+
+
+// Simpl# Classes Definition
+//**************************
+Solstice mySolstice;
+MStatistics myStats;
+
+//Event Handlers
+//*************************
+threadsafe push request_stats
+{
+	string sendUrl[512];
+    makeString(sendUrl,"http://%s/api/stats",ip_host);
+	mySolstice.Connect(sendUrl);
+ 	delay(50);
+
+	displayName = mySolstice.displayName;
+    productName = mySolstice.productName;
+	productVariant = mySolstice.productVariant;
+    currentPostCount = mySolstice.currentPostCount;
+	currentBandwith = mySolstice.currentBandwith;
+    currentLiveSourceCount = mySolstice.currentLiveSourceCount;
+	connectedUsers = mySolstice.connectedUsers;
+	timeSinceLastConnection = mySolstice.timeSinceLastConnectionInitialize;                               
+
+
+
+}
+
+   
